@@ -1,3 +1,4 @@
+from random import randint
 from pygame import * 
 
 class GameSprite(sprite.Sprite):
@@ -27,10 +28,20 @@ class Laser(GameSprite):
     def update(self):
         self.rect.y -= self.speed 
 
+class Enemy(GameSprite):
+    def update(self):
+        self.rect.y += self.speed 
+        if self.rect.y > 500:
+            self.rect.y = 0
+            self.rect.x = randint(0, 700)
 
 player = Player(img='player.png',width=100, height=100, speed=5, x=350, y=400)
-
 lasers = sprite.Group()
+enemys = sprite.Group()
+for i in range(5):
+    enemy = Enemy(img='enemy.png', width=100, height=100,
+                       speed=randint(1,5), x=randint(0, 700), y=0)
+    enemys.add(enemy)
 
 window = display.set_mode( (800,500) )
 display.set_caption('Шутер')
@@ -50,11 +61,14 @@ while True:
             player.fire()
             
     window.blit(background, (0, 0))
+
     player.show()
     lasers.draw(window)
+    enemys.draw(window)
 
     player.move()
     lasers.update()
+    enemys.update()
     
     display.update()
     clock.tick(100)
