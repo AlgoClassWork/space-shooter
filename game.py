@@ -59,6 +59,12 @@ while True:
             exit()
         elif some_event.type == MOUSEBUTTONDOWN and some_event.button == BUTTON_LEFT:
             player.fire()
+
+    if sprite.groupcollide(lasers, enemys, True, True):
+        enemy = Enemy(img='enemy.png', width=100, height=100,
+                       speed=randint(1,5), x=randint(0, 700), y=0)
+        enemys.add(enemy)
+        
             
     window.blit(background, (0, 0))
 
