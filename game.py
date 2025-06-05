@@ -53,6 +53,12 @@ clock = time.Clock()
 #mixer.music.play()
 #laser_sound = mixer.Sound('laser.mp3')
 
+score = 0
+
+font.init()
+my_font = font.Font('my_font.ttf', 50)
+my_font2 = font.Font('my_font.ttf', 150)
+
 while True:
     for some_event in event.get():
         if some_event.type == QUIT:
@@ -64,9 +70,12 @@ while True:
         enemy = Enemy(img='enemy.png', width=100, height=100,
                        speed=randint(1,5), x=randint(0, 700), y=0)
         enemys.add(enemy)
-        
+        score += 1
+ 
+    text_score = my_font.render(f'Очки: {score}', True, (255,255,255))
             
     window.blit(background, (0, 0))
+    window.blit(text_score, (0, 0))
 
     player.show()
     lasers.draw(window)
@@ -75,6 +84,10 @@ while True:
     player.move()
     lasers.update()
     enemys.update()
+
+    if score >= 10:
+        text_win = my_font2.render(f'ПОБЕДА', True, (0,255,0))
+        window.blit(text_win, (150, 150))
     
     display.update()
     clock.tick(100)
